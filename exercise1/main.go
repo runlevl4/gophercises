@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/csv"
 	"flag"
 	"fmt"
@@ -31,9 +30,9 @@ func main() {
 func loadTestFile(file string) {
 	csvFile, err := os.Open(file)
 	if err != nil {
-		log.Fatal(err)
+		exit(fmt.Sprintf("Failed to open the CSV file: %s\n", file))
 	}
-	reader := csv.NewReader(bufio.NewReader(csvFile))
+	reader := csv.NewReader(csvFile)
 
 	for {
 		line, err := reader.Read()
@@ -48,6 +47,11 @@ func loadTestFile(file string) {
 			answer:   tmp,
 		})
 	}
+}
+
+func exit(msg string) {
+	fmt.Println(msg)
+	os.Exit(1)
 }
 
 func doQuiz() {
